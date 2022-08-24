@@ -12,6 +12,6 @@ npm install axios
 npm install json-server
 npm install -g json
 
-touch db.jsonn
+touch db.json
 json -I -f package.json -e "this.scripts.server=\"npx json-server --port=3001 --watch db.json\""
 
