@@ -1,0 +1,40 @@
+#! /usr/bin/bash
+
+for x in $@
+do
+    name=$x
+done
+
+frontendFile="${name}-frontend"
+npx create-react-app $frontendFile
+cd ./$frontendFile
+
+npm install axios
+npm install -g json
+
+touch db.json
+json -I -f package.json -e "this.scripts.server=\"npx json-server --port=3001 --watch db.json\""
+
+cd ..
+backendFile="${name}-backend"
+mkdir $backendFile
+cd ./$backendFile
+
+git init
+npm init
+npm install express
+npm install --save-dev nodemon
+npm install mongoose
+
+touch .gitignore
+touch .env
+echo 'node_modules' >> .gitignore
+echo '.env' >> .gitignore
+echo 'PORT="3001"' >> .env
+
+touch index.js
+json -I -f package.json -e "this.scripts.start=\"node index.js\""
+json -I -f package.json -e "this.scripts.dev=\"nodemon index.js\""
+
+echo "Created succesfully react frontend + node.js backend!"
+
